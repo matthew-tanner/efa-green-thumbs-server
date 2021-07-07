@@ -1,0 +1,26 @@
+{
+  "name": "efa-green-thumbs-server",
+  "version": "1.0.0",
+  "description": "efa green thumbs server project",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "debug": "npx nodemon",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matthew-tanner/efa-green-thumbs-server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/matthew-tanner/efa-green-thumbs-server/issues"
+  },
+  "homepage": "https://github.com/matthew-tanner/efa-green-thumbs-server#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1"
+  }
+}
