@@ -1,2 +1,2 @@
-# efa-green-thumbs-server
+# efa-trips-server
 efa team project for blue badge

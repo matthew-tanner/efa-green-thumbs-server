@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
-const { appPort } = require("./config/index");
+const { appPort, dbName } = require("./config/index");
+
+const controllers = require("./controllers");
 
 const dbConnection = require("./db/index");
 
@@ -8,12 +10,13 @@ const app = new express();
 
 app.use(cors());
 app.use(express.json());
-app.use("/", (req, res) => res.send("pong"));
+app.use("/user", controllers.UserController);
 
 dbConnection
   .authenticate()
-  .then(() => dbConn.sync())
+  .then(() => dbConnection.sync())
   .then(() => {
+    console.log(`connected to database ${dbName}`);
     app.listen(appPort, () => console.log(`listening on port ${appPort}`));
   })
   .catch((err) => {
