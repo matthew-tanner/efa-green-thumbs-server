@@ -59,6 +59,12 @@ router.get("/confirm/:confirmationCode", async (req, res) => {
       {
         status: 1
       })
+
+      if (updateUser[0] === 1){
+        res.status(200).json({
+          message: 1
+        })
+      }
     }
   } catch(err){
     console.log(err)
