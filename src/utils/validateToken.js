@@ -6,7 +6,7 @@ const validateToken = async (req, res, next) => {
   if (req.method == "OPTIONS") {
     next();
   }
-
+  
   try {
     if (req.headers.authorization && req.headers.authorization.includes("Bearer")) {
       const { authorization } = req.headers;
