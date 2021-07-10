@@ -9,7 +9,7 @@ router.get("/all", validateToken, async (req, res) => {
   const { id } = req.user;
 
   try {
-    const Trips = await Model.findAll({
+    const Trips = await TripModel.findAll({
       where: {
         userId: id,
       },
@@ -28,7 +28,7 @@ router.get("/:id", validateToken, async (req, res) => {
     const getTrip = await TripModel.findOne({
       where: {
         id: tripId,
-        ownerId: id,
+        userId: id,
       },
     });
 
@@ -78,7 +78,7 @@ router.put("/:id", validateToken, async (req, res) => {
   const query = {
     where: {
       id: tripId,
-      ownerId: id,
+      userId: id,
     },
     returning: true,
   };
@@ -114,7 +114,7 @@ router.delete("/:id", validateToken, async (req, res) => {
     TripModel.destroy({
       where: {
         id: tripId,
-        ownerId: id,
+        userId: id,
       },
     });
     res.status(200).json({
