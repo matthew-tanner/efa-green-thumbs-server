@@ -1,6 +1,9 @@
 const router = require("express").Router();
-const { validateToken } = require("../utils");
+const jwt = require("jsonwebtoken");
+const validateToken = require("../utils/validateToken");
 const { TripModel } = require("../models");
+
+const { jwtSecret } = require("../config");
 
 router.get("/all", validateToken, async (req, res) => {
   const { id } = req.user;
@@ -47,13 +50,15 @@ router.get("/:id", validateToken, async (req, res) => {
 
 router.post("/create", validateToken, async (req, res) => {
   const { id } = req.user;
-  const { name, public } = req.body;
+  const { name } = req.body;
 
   try {
-    const newTrip = TripModel.create({
+    const permaLink = jwt.sign({ name: name }, jwtSecret);
+    const newTrip = await TripModel.create({
       name: name,
-      public: public,
-      ownerId: id,
+      public: false,
+      permaLink: permaLink,
+      userId: id,
     });
     res.status(200).json({
       data: newTrip,
@@ -121,3 +126,5 @@ router.delete("/:id", validateToken, async (req, res) => {
     });
   }
 });
+
+module.exports = router;

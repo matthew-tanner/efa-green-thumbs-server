@@ -8,7 +8,7 @@ const Trip = db.define("trip", {
     unique: true,
   },
   permaLink: {
-    type: DataTypes.STRING(50),
+    type: DataTypes.STRING,
     allowNull: false,
     unique: true,
   },
