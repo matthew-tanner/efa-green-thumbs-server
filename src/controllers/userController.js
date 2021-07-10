@@ -5,14 +5,14 @@ const MaskData = require("maskdata");
 const { UniqueConstraintError } = require("sequelize/lib/errors");
 
 const { UserModel } = require("../models");
-const { jwtSecret } = require("../config")
+const { jwtSecret } = require("../config");
 
 router.post("/signup", async (req, res) => {
   const { email, password, displayName } = req.body;
   console.log(email, password, displayName);
 
   try {
-    const confirmToken = jwt.sign({email: email}, jwtSecret);
+    const confirmToken = jwt.sign({ email: email }, jwtSecret);
     const pwdHash = bcrypt.hashSync(password, 12);
 
     const createUser = await UserModel.create({
@@ -20,11 +20,11 @@ router.post("/signup", async (req, res) => {
       passwordHash: pwdHash,
       displayName: displayName,
       confirmed: false,
-      confirmationCode: confirmToken
+      confirmationCode: confirmToken,
     });
 
     res.status(200).json({
-      email: createUser.email,
+      email: createUser.emailAddress,
       displayName: createUser.displayName,
     });
   } catch (err) {
@@ -41,35 +41,69 @@ router.post("/signup", async (req, res) => {
   }
 });
 
+router.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const getUser = await UserModel.findOne({
+      where: {
+        emailAddress: email,
+      },
+    });
+
+    if (getUser) {
+      const comparePass = bcrypt.compare(password, getUser.passwordHash);
+
+      if (comparePass) {
+        const token = jwt.sign({ id: getUser.id }, jwtSecret, { expiresIn: "24h" });
+        console.log(`login success for ${getUser.emailAddress}`);
+        res.status(200).json({
+          email: getUser.emailAddress,
+          displayName: getUser.displayName,
+          sessionToken: token,
+        });
+      }
+    } else {
+      res.status(401).json({
+        message: "Unauthorized",
+      });
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
 router.get("/confirm/:confirmationCode", async (req, res) => {
   const confirmationCode = req.params.confirmationCode;
 
-  try{
+  try {
     const getUser = UserModel.findOne({
-      confirmationCode: confirmationCode
-    })
+      confirmationCode: confirmationCode,
+    });
 
-    if (getUser){
-      const updateUser = UserModel.update({
-        where:{
-          confirmationCode: confirmationCode
+    if (getUser) {
+      const updateUser = UserModel.update(
+        {
+          where: {
+            confirmationCode: confirmationCode,
+          },
+          returning: true,
         },
-        returning: true,
-      },
-      {
-        status: 1
-      })
+        {
+          status: 1,
+        }
+      );
 
-      if (updateUser[0] === 1){
+      if (updateUser[0] === 1) {
         res.status(200).json({
-          message: 1
-        })
+          message: 1,
+        });
       }
     }
-  } catch(err){
-    console.log(err)
+  } catch (err) {
+    console.log(err);
   }
-
-})
+});
 
 module.exports = router;

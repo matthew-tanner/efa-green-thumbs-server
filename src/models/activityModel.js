@@ -18,14 +18,14 @@ const Activity = db.define("activity", {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  public: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false,
-  },
   tripId: {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  userId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  }
 });
 
 module.exports = Activity;

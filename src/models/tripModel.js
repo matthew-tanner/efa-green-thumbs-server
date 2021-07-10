@@ -16,6 +16,10 @@ const Trip = db.define("trip", {
     type: DataTypes.INTEGER,
     allowNull: false,
   },
+  public: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false
+  }
 });
 
 module.exports = Trip;
