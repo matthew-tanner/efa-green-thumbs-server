@@ -23,7 +23,7 @@ const User = db.define("user", {
   confirmationCode: {
     type: DataTypes.STRING,
     allowNull: false,
-    uique: true
+    unique: true
   }
 });
 

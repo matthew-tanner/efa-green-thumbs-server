@@ -8,8 +8,8 @@ const { UserModel } = require("../models");
 const { jwtSecret } = require("../config")
 
 router.post("/signup", async (req, res) => {
-  const { email, password, displayname } = req.body;
-  console.log(email, password, displayname);
+  const { email, password, displayName } = req.body;
+  console.log(email, password, displayName);
 
   try {
     const confirmToken = jwt.sign({email: email}, jwtSecret);
@@ -18,14 +18,14 @@ router.post("/signup", async (req, res) => {
     const createUser = await UserModel.create({
       emailAddress: email,
       passwordHash: pwdHash,
-      displayName: displayname,
-      status: 0,
-      confirmationCode: confirmToken,
+      displayName: displayName,
+      confirmed: false,
+      confirmationCode: confirmToken
     });
 
     res.status(200).json({
-      email: createUser.emailAddress,
-      displayname: createUser.displayName,
+      email: createUser.email,
+      displayName: createUser.displayName,
     });
   } catch (err) {
     console.log(err);
