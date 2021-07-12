@@ -11,7 +11,7 @@ const Activity = db.define("activity", {
     allowNull: true,
   },
   cost: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: true,
   },
   notes: {

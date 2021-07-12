@@ -78,7 +78,7 @@ router.put("/:id", validateToken, async (req, res) => {
   const query = {
     where: {
       id: tripId,
-      ownerId: id,
+      userId: id,
     },
     returning: true,
   };
@@ -114,7 +114,7 @@ router.delete("/:id", validateToken, async (req, res) => {
     TripModel.destroy({
       where: {
         id: tripId,
-        ownerId: id,
+        userId: id,
       },
     });
     res.status(200).json({
