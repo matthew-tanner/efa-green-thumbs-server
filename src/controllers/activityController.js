@@ -26,7 +26,7 @@ router.put("/:id", validateToken, async (req, res) => {});
 router.post("/create/:tripid", validateToken, async (req, res) => {
   const { id } = req.user;
   const tripId = req.params.tripid;
-  const { name, description, cost, notes } = req.activity;
+  const { name, description, cost, notes } = req.body;
   const activityEntry = {
     name,
     description,
@@ -36,12 +36,12 @@ router.post("/create/:tripid", validateToken, async (req, res) => {
     tripId: tripId,
   };
   try {
-    const newActivity = await activityModel.create(activityEntry);
+    const newActivity = await ActivityModel.create(activityEntry);
     res.status(200).json(newActivity);
   } catch (err) {
     res.status(500).json({ error: err });
   }
-  activityModel.create(activityEntry);
+  ActivityModel.create(activityEntry);
 });
 
 router.delete("/:id", validateToken, async (req, res) => {
