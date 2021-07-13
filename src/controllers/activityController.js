@@ -19,9 +19,66 @@ router.get("/all/:tripid", validateToken, async (req, res) => {
   }
 });
 
-router.get("/:id", validateToken);
+router.get("/:id", validateToken, async (req, res) => {
+  const activityId = req.params.id;
+  console.log(activityId)
 
-router.put("/:id", validateToken, async (req, res) => {});
+  try {
+    const getActivity = await ActivityModel.findOne({
+      where: {
+        id: activityId,
+      },
+    });
+
+    if (getActivity) {
+      res.status(200).json({
+        data: getActivity,
+      });
+    } else {
+      res.status(400).json({
+        message: "bad request",
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      message: err,
+    });
+  }
+});
+
+
+router.put("/:id", validateToken, async (req, res) => {
+  const activityId = req.params.id
+  const { notes } = req.body
+
+  const query = {
+    where: {
+      id: activityId
+    },
+    returning: true,
+  }
+
+  const data = { notes }
+
+  try {
+    const updateActivity = await ActivityModel.update(data, query);
+
+    if (updateActivity[0] === 1) {
+      res.status(200).json({
+        data: updateActivity,
+      });
+    } else {
+      res.status(400).json({
+        message: "bad request",
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      message: err,
+    });
+  }
+})
+
 
 router.post("/create/:tripid", validateToken, async (req, res) => {
   const { id } = req.user;
@@ -41,7 +98,6 @@ router.post("/create/:tripid", validateToken, async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err });
   }
-  ActivityModel.create(activityEntry);
 });
 
 router.delete("/:id", validateToken, async (req, res) => {
