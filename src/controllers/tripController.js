@@ -50,13 +50,14 @@ router.get("/:id", validateToken, async (req, res) => {
 
 router.post("/create", validateToken, async (req, res) => {
   const { id } = req.user;
-  const { name } = req.body;
+  const { name, activities } = req.body;
 
   try {
     const permaLink = jwt.sign({ name: name }, jwtSecret);
     const newTrip = await TripModel.create({
       name: name,
       public: false,
+      activities: activities,
       permaLink: permaLink,
       userId: id,
     });
@@ -78,7 +79,7 @@ router.put("/:id", validateToken, async (req, res) => {
   const query = {
     where: {
       id: tripId,
-      ownerId: id,
+      userId: id,
     },
     returning: true,
   };
@@ -114,7 +115,7 @@ router.delete("/:id", validateToken, async (req, res) => {
     TripModel.destroy({
       where: {
         id: tripId,
-        ownerId: id,
+        userId: id,
       },
     });
     res.status(200).json({
