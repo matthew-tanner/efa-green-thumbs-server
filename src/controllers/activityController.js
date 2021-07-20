@@ -20,6 +20,7 @@ router.get("/all/:tripid", validateToken, async (req, res) => {
 });
 
 router.get("/:id", validateToken, async (req, res) => {
+  const {id} = req.user
   const activityId = req.params.id;
   console.log(activityId)
 
@@ -27,6 +28,7 @@ router.get("/:id", validateToken, async (req, res) => {
     const getActivity = await ActivityModel.findOne({
       where: {
         id: activityId,
+        userId: id
       },
     });
 

@@ -50,14 +50,14 @@ router.get("/:id", validateToken, async (req, res) => {
 
 router.post("/create", validateToken, async (req, res) => {
   const { id } = req.user;
-  const { name, activities } = req.body;
+  const { parkCode, name } = req.body;
 
   try {
     const permaLink = jwt.sign({ name: name }, jwtSecret);
     const newTrip = await TripModel.create({
       name: name,
+      parkCode: parkCode,
       public: false,
-      activities: activities,
       permaLink: permaLink,
       userId: id,
     });
@@ -86,7 +86,7 @@ router.put("/:id", validateToken, async (req, res) => {
 
   const data = {
     name,
-  };
+  }
 
   try {
     const updateTrip = await TripModel.update(data, query);

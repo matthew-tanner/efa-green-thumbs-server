@@ -3,8 +3,16 @@ const db = require("../db/index");
 
 const Activity = db.define("activity", {
   name: {
-    type: DataTypes.STRING(50),
+    type: DataTypes.STRING,
     allowNull: false,
+  },
+  activityCode: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  tripId: {
+    type: DataTypes.INTEGER,
+    allowNull: false
   },
   description: {
     type: DataTypes.STRING,
@@ -17,14 +25,6 @@ const Activity = db.define("activity", {
   notes: {
     type: DataTypes.STRING,
     allowNull: true,
-  },
-  tripId: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
-  userId: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
   }
 });
 

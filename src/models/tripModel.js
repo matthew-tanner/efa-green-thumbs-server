@@ -3,7 +3,11 @@ const db = require("../db/index");
 
 const Trip = db.define("trip", {
   name: {
-    type: DataTypes.STRING(50),
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  parkCode: {
+    type: DataTypes.STRING,
     allowNull: false,
   },
   permaLink: {
@@ -11,17 +15,9 @@ const Trip = db.define("trip", {
     allowNull: false,
     unique: true,
   },
-  activities: {
-    type: DataTypes.STRING,
-    allowNull: true,
-  },
   userId: {
     type: DataTypes.INTEGER,
     allowNull: false,
-  },
-  public: {
-    type: DataTypes.BOOLEAN,
-    allowNull: false
   }
 });
 
