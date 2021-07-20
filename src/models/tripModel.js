@@ -11,8 +11,8 @@ const Trip = db.define("trip", {
     allowNull: false,
     unique: true,
   },
-  activites: {
-    type: DataTypes.ARRAY,
+  activities: {
+    type: DataTypes.STRING,
     allowNull: true,
   },
   userId: {
