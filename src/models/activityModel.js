@@ -6,19 +6,27 @@ const Activity = db.define("activity", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  activityCode: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
   tripId: {
     type: DataTypes.INTEGER,
     allowNull: false
   },
   description: {
+    type: DataTypes.STRING(2048),
+    allowNull: true,
+  },
+  title: {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  cost: {
+  location: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  url: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
+  image: {
     type: DataTypes.STRING,
     allowNull: true,
   },
