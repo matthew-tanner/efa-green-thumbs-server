@@ -55,7 +55,9 @@ router.post("/login", async (req, res) => {
       const comparePass = bcrypt.compare(password, getUser.passwordHash);
 
       if (comparePass) {
-        const token = jwt.sign({ id: getUser.id }, jwtSecret, { expiresIn: "24h" });
+        const token = jwt.sign({ id: getUser.id }, jwtSecret, {
+          expiresIn: "24h",
+        });
         console.log(`login success for ${getUser.emailAddress}`);
         res.status(200).json({
           email: getUser.emailAddress,

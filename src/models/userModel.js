@@ -14,7 +14,7 @@ const User = db.define("user", {
   displayName: {
     type: DataTypes.STRING(50),
     allowNull: false,
-    unique: true
+    unique: true,
   },
   confirmed: {
     type: DataTypes.BOOLEAN,
@@ -23,8 +23,8 @@ const User = db.define("user", {
   confirmationCode: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true
-  }
+    unique: true,
+  },
 });
 
 module.exports = User;

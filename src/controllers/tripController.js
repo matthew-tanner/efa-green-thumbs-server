@@ -86,7 +86,7 @@ router.put("/:id", validateToken, async (req, res) => {
 
   const data = {
     name,
-  }
+  };
 
   try {
     const updateTrip = await TripModel.update(data, query);

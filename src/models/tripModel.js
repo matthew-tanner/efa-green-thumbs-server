@@ -18,7 +18,7 @@ const Trip = db.define("trip", {
   userId: {
     type: DataTypes.INTEGER,
     allowNull: false,
-  }
+  },
 });
 
 module.exports = Trip;

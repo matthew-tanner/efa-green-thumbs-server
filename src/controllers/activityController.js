@@ -20,15 +20,15 @@ router.get("/all/:tripid", validateToken, async (req, res) => {
 });
 
 router.get("/:id", validateToken, async (req, res) => {
-  const {id} = req.user
+  const { id } = req.user;
   const activityId = req.params.id;
-  console.log(activityId)
+  console.log(activityId);
 
   try {
     const getActivity = await ActivityModel.findOne({
       where: {
         id: activityId,
-        userId: id
+        userId: id,
       },
     });
 
@@ -48,19 +48,18 @@ router.get("/:id", validateToken, async (req, res) => {
   }
 });
 
-
 router.put("/:id", validateToken, async (req, res) => {
-  const activityId = req.params.id
-  const { notes } = req.body
+  const activityId = req.params.id;
+  const { notes } = req.body;
 
   const query = {
     where: {
-      id: activityId
+      id: activityId,
     },
     returning: true,
-  }
+  };
 
-  const data = { notes }
+  const data = { notes };
 
   try {
     const updateActivity = await ActivityModel.update(data, query);
@@ -79,7 +78,7 @@ router.put("/:id", validateToken, async (req, res) => {
       message: err,
     });
   }
-})
+});
 
 router.post("/create/:tripid", validateToken, async (req, res) => {
   const { id } = req.user;
@@ -87,8 +86,8 @@ router.post("/create/:tripid", validateToken, async (req, res) => {
   const activities = req.body;
 
   try {
-    const activityResults = []
-    activities.map( async (x) => {
+    const activityResults = [];
+    activities.map(async (x) => {
       const activityEntry = {
         name: x.name,
         description: x.description,
@@ -101,10 +100,10 @@ router.post("/create/:tripid", validateToken, async (req, res) => {
       };
       const newActivity = await ActivityModel.create(activityEntry);
       activityResults.push(newActivity);
-    })
+    });
     res.status(200).json(activityResults);
   } catch (err) {
-    console.log(err)
+    console.log(err);
     res.status(500).json({ error: err });
   }
 });

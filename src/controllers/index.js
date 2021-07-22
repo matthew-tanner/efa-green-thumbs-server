@@ -5,5 +5,5 @@ const ActivityController = require("./activityController");
 module.exports = {
   UserController,
   TripController,
-  ActivityController
-}
+  ActivityController,
+};

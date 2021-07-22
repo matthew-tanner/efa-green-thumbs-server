@@ -6,13 +6,18 @@ const validateToken = async (req, res, next) => {
   if (req.method == "OPTIONS") {
     next();
   }
-  
+
   try {
-    if (req.headers.authorization && req.headers.authorization.includes("Bearer")) {
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.includes("Bearer")
+    ) {
       const { authorization } = req.headers;
       const payload = authorization
         ? jwt.verify(
-            authorization.includes("Bearer") ? authorization.split(" ")[1] : authorization,
+            authorization.includes("Bearer")
+              ? authorization.split(" ")[1]
+              : authorization,
             jwtSecret
           )
         : undefined;

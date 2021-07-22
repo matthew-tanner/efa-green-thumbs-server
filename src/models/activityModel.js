@@ -8,7 +8,7 @@ const Activity = db.define("activity", {
   },
   tripId: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: false,
   },
   description: {
     type: DataTypes.STRING(2048),
@@ -33,7 +33,7 @@ const Activity = db.define("activity", {
   notes: {
     type: DataTypes.STRING,
     allowNull: true,
-  }
+  },
 });
 
 module.exports = Activity;
