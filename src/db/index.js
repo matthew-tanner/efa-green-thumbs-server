@@ -1,7 +1,9 @@
 const Sequelize = require("sequelize");
-const { dbURL } = require("../config/index");
+const { dbURL, environment } = require("../config/index");
 
 const sequelize = new Sequelize(dbURL, {
+  dialect: "postgres",
+  ssl: environment === "production",
   logging: false,
 });
 
