@@ -1,7 +1,7 @@
 require("dotenv").config();
 
 const config = {
-  appPort: parseInt(process.env.APP_PORT),
+  appPort: parseInt(process.env.PORT),
   dbName: process.env.DB_NAME,
   jwtSecret: process.env.JWT_KEY,
   dbURL: `postgres://${process.env.DB_USR}:${process.env.DB_PWD}@${
