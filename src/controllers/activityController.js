@@ -19,29 +19,93 @@ router.get("/all/:tripid", validateToken, async (req, res) => {
   }
 });
 
-router.get("/:id", validateToken);
+router.get("/:id", validateToken, async (req, res) => {
+  const { id } = req.user;
+  const activityId = req.params.id;
+  console.log(activityId);
 
-router.put("/:id", validateToken, async (req, res) => {});
+  try {
+    const getActivity = await ActivityModel.findOne({
+      where: {
+        id: activityId,
+        userId: id,
+      },
+    });
+
+    if (getActivity) {
+      res.status(200).json({
+        data: getActivity,
+      });
+    } else {
+      res.status(400).json({
+        message: "bad request",
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      message: err,
+    });
+  }
+});
+
+router.put("/:id", validateToken, async (req, res) => {
+  const activityId = req.params.id;
+  const { notes } = req.body;
+
+  const query = {
+    where: {
+      id: activityId,
+    },
+    returning: true,
+  };
+
+  const data = { notes };
+
+  try {
+    const updateActivity = await ActivityModel.update(data, query);
+
+    if (updateActivity[0] === 1) {
+      res.status(200).json({
+        data: updateActivity,
+      });
+    } else {
+      res.status(400).json({
+        message: "bad request",
+      });
+    }
+  } catch (err) {
+    res.status(500).json({
+      message: err,
+    });
+  }
+});
 
 router.post("/create/:tripid", validateToken, async (req, res) => {
   const { id } = req.user;
   const tripId = req.params.tripid;
-  const { name, description, cost, notes } = req.activity;
-  const activityEntry = {
-    name,
-    description,
-    cost,
-    notes,
-    userId: id,
-    tripId: tripId,
-  };
+  const activities = req.body;
+
   try {
-    const newActivity = await activityModel.create(activityEntry);
-    res.status(200).json(newActivity);
+    const activityResults = [];
+    activities.map(async (x) => {
+      const activityEntry = {
+        name: x.name,
+        description: x.description,
+        location: x.location,
+        title: x.title,
+        image: x.image,
+        url: x.url,
+        userId: id,
+        tripId: tripId,
+      };
+      const newActivity = await ActivityModel.create(activityEntry);
+      activityResults.push(newActivity);
+    });
+    res.status(200).json(activityResults);
   } catch (err) {
+    console.log(err);
     res.status(500).json({ error: err });
   }
-  activityModel.create(activityEntry);
 });
 
 router.delete("/:id", validateToken, async (req, res) => {
