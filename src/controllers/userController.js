@@ -9,7 +9,6 @@ const { jwtSecret } = require("../config");
 
 router.post("/signup", async (req, res) => {
   const { email, password, displayName } = req.body;
-  console.log(email, password, displayName);
 
   try {
     const confirmToken = jwt.sign({ email: email }, jwtSecret);
