@@ -11,6 +11,8 @@ const app = new express();
 app.use(cors());
 app.use(express.json());
 app.use("/user", controllers.UserController);
+app.use("/trip", controllers.TripController);
+app.use("/activity", controllers.ActivityController);
 
 dbConnection
   .authenticate()
