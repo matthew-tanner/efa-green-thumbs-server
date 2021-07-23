@@ -10,7 +10,6 @@ router.get("/all/:tripid", validateToken, async (req, res) => {
     const getActivities = await ActivityModel.findAll({
       where: {
         tripId: tripId,
-        userId: id,
       },
     });
     res.status(200).json(getActivities);
@@ -28,7 +27,6 @@ router.get("/:id", validateToken, async (req, res) => {
     const getActivity = await ActivityModel.findOne({
       where: {
         id: activityId,
-        userId: id,
       },
     });
 
@@ -116,7 +114,6 @@ router.delete("/:id", validateToken, async (req, res) => {
     const query = {
       where: {
         id: activityId,
-        userId: id,
       },
     };
     ActivityModel.destroy(query);
