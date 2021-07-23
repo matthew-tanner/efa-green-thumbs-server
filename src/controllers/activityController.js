@@ -3,16 +3,15 @@ const validateToken = require("../utils/validateToken");
 const { ActivityModel } = require("../models");
 
 router.get("/all/:tripid", validateToken, async (req, res) => {
-  const { id } = req.user;
   const tripId = req.params.tripid;
 
   try {
     const getActivities = await ActivityModel.findAll({
       where: {
         tripId: tripId,
-        userId: id,
       },
     });
+    console.log("activities", getActivities)
     res.status(200).json(getActivities);
   } catch (err) {
     res.status(500).json({ error: err });
@@ -20,7 +19,6 @@ router.get("/all/:tripid", validateToken, async (req, res) => {
 });
 
 router.get("/:id", validateToken, async (req, res) => {
-  const { id } = req.user;
   const activityId = req.params.id;
   console.log(activityId);
 
@@ -28,7 +26,6 @@ router.get("/:id", validateToken, async (req, res) => {
     const getActivity = await ActivityModel.findOne({
       where: {
         id: activityId,
-        userId: id,
       },
     });
 
@@ -81,7 +78,6 @@ router.put("/:id", validateToken, async (req, res) => {
 });
 
 router.post("/create/:tripid", validateToken, async (req, res) => {
-  const { id } = req.user;
   const tripId = req.params.tripid;
   const activities = req.body;
 
@@ -95,7 +91,6 @@ router.post("/create/:tripid", validateToken, async (req, res) => {
         title: x.title,
         image: x.image,
         url: x.url,
-        userId: id,
         tripId: tripId,
       };
       const newActivity = await ActivityModel.create(activityEntry);
@@ -109,14 +104,12 @@ router.post("/create/:tripid", validateToken, async (req, res) => {
 });
 
 router.delete("/:id", validateToken, async (req, res) => {
-  const { id } = req.user;
   const activityId = req.params.id;
 
   try {
     const query = {
       where: {
         id: activityId,
-        userId: id,
       },
     };
     ActivityModel.destroy(query);
