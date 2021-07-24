@@ -92,7 +92,6 @@ router.post("/create/:tripid", validateToken, async (req, res) => {
         title: x.title,
         image: x.image,
         url: x.url,
-        userId: id,
         tripId: tripId,
       };
       const newActivity = await ActivityModel.create(activityEntry);
@@ -112,7 +111,6 @@ router.delete("/:id", validateToken, async (req, res) => {
     const query = {
       where: {
         id: activityId,
-        userId: id,
       },
     };
     ActivityModel.destroy(query);
