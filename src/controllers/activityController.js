@@ -10,7 +10,6 @@ router.get("/all/:tripid", validateToken, async (req, res) => {
     const getActivities = await ActivityModel.findAll({
       where: {
         tripId: tripId,
-        userId: id,
       },
     });
     res.status(200).json(getActivities);
@@ -28,7 +27,6 @@ router.get("/:id", validateToken, async (req, res) => {
     const getActivity = await ActivityModel.findOne({
       where: {
         id: activityId,
-        userId: id,
       },
     });
 
@@ -81,7 +79,6 @@ router.put("/:id", validateToken, async (req, res) => {
 });
 
 router.post("/create/:tripid", validateToken, async (req, res) => {
-  const { id } = req.user;
   const tripId = req.params.tripid;
   const activities = req.body;
 
@@ -109,7 +106,6 @@ router.post("/create/:tripid", validateToken, async (req, res) => {
 });
 
 router.delete("/:id", validateToken, async (req, res) => {
-  const { id } = req.user;
   const activityId = req.params.id;
 
   try {
