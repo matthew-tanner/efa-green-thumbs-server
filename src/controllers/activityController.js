@@ -111,7 +111,6 @@ router.delete("/:id", validateToken, async (req, res) => {
     const query = {
       where: {
         id: activityId,
-        userId: id,
       },
     };
     ActivityModel.destroy(query);
