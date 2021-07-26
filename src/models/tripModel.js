@@ -6,6 +6,10 @@ const Trip = db.define("trip", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  image: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  },
   parkCode: {
     type: DataTypes.STRING,
     allowNull: false,
