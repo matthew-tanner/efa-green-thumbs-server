@@ -10,4 +10,5 @@ const config = {
   environment: process.env.ENVIRONMENT,
 };
 
+
 module.exports = config;
